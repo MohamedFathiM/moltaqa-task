@@ -17,4 +17,15 @@ class Driver extends Model
         'location',
     ];
 
+    public static function nearestDrivers()
+    {
+        return static::selectRaw(
+            'SQRT(POW(69.1*(current_latitude - ?) ,2) + POW(69.1 * (? - current_longitude) * COS(current_latitude / 57.3),2)) As distance',
+            [auth()->user()->lat, auth()->user()->lng]
+        )
+            ->addSelect('id', 'current_latitude', 'current_longitude', 'location')
+            ->orderBy('distance')
+            ->take(3)
+            ->get();
+    }
 }
