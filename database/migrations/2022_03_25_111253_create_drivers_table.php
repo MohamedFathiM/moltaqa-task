@@ -15,6 +15,11 @@ class CreateDriversTable extends Migration
     {
         Schema::create('drivers', function (Blueprint $table) {
             $table->id();
+            $table->timestamp('joined_date');
+            $table->string('current_latitude')->nullable();
+            $table->string('current_longitude')->nullable();
+            $table->string('location')->nullable();
+
             $table->timestamps();
         });
     }
