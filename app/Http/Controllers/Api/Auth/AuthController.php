@@ -43,4 +43,33 @@ class AuthController extends Controller
             ]);
     }
 
+    public function login(LoginRequest $request)
+    {
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'status' => false,
+                'data' => null,
+                'message' => trans('auth.failed')
+            ], 401);
+        }
+
+        if (!Auth::attempt($this->getCredentials($request))) {
+            return response()->json([
+                'status' => false,
+                'data' => null,
+                'message' => trans('auth.there_is_problem')
+            ], 401);
+        }
+
+        $user = Auth('sanctum')->user();
+        $user->tokens()->delete();
+
+        return UserResource::make($user)
+            ->additional([
+                'status' => true,
+                'message' => Lang::get('auth.success')
+            ]);
+    }
 }
