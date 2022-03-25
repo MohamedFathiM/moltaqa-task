@@ -17,5 +17,6 @@ return [
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
     'success'  => 'Authentication Successfully',
-    'there_is_problem' => 'Cannot Login'
+    'there_is_problem' => 'Cannot Login',
+    'passed_limit' => 'You Passed Limit Rate'
 ];
